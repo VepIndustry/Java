@@ -47,6 +47,8 @@ public class Model {
             case "MISTAKE":
                 System.out.println("OK: " + name + ", решил исправить ошибки.");
                 break;
+            case "TIME":
+                System.out.println("TIME: ждем " + Long.parseLong(args[0]) / 60000 + " минут(ы)");
         }
     }
 

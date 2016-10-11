@@ -37,16 +37,19 @@ class ControllerProgress extends Thread {
     }
 
     private long randomVEP(int speed, String Type) {
+        long temp = 0;
         switch (Type) {
             case "Example":
-                return Random((100 - speed) * 45000);
+                temp = Random((100 - speed) * 45000);
+                break;
             case "Lector":
-                return Random((100 - speed) * 70000);
+                temp = Random((100 - speed) * 70000);
+                break;
             case "WrongExample":
                 return Random((100 - speed) * 30000);
-            default:
-                return 0;
         }
+        Model.printPositiveLog("TIME", "", new String[]{Long.toString(temp)});
+        return temp;
     }
 
     private void gasShip() {
