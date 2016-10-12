@@ -77,7 +77,9 @@ public class Controller extends Thread {
     public void printAll() {
         for (Account acc : setAccounts) Model.Model.println(acc.print());
     }
-
+    public void printAllShort() {
+        for (Account acc : setAccounts) Model.Model.println(acc.getKeyInter() + " : уровень " + acc.getLevel() + " : лекция " + acc.getLesson() + ". Кач до " + acc.getMaxLvl() + ".");
+    }
     public boolean stopUp(String key) {
 
         if (setAccountsThread.containsKey(key)){

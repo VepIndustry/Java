@@ -32,7 +32,9 @@ public class View {
                     Model.Model.println("Введите секретный ключ");
                     controller.stopUp(reader.readLine());
                     break;
-
+                case "watch -s":
+                    controller.printAllShort();
+                    break;
             }
         } while (!interCommand.equals("exit"));
         controller.interrupt();
