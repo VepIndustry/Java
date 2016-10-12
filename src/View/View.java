@@ -28,6 +28,11 @@ public class View {
                 case "watch":
                     controller.printAll();
                     break;
+                case "stop":
+                    Model.Model.println("Введите секретный ключ");
+                    controller.stopUp(reader.readLine());
+                    break;
+
             }
         } while (!interCommand.equals("exit"));
         controller.interrupt();

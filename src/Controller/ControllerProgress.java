@@ -100,9 +100,12 @@ class ControllerProgress extends Thread {
                 break;
             }
 
+
+
             try {
                 sleep(time_sleep);
             } catch (InterruptedException e) {
+                Model.printPositiveLog("EXIT", account.getKeyInter(), new String[]{});
                 return;
             }
 
@@ -122,7 +125,6 @@ class ControllerProgress extends Thread {
                         Model.printPositiveLog("WRONG", account.getKeyInter(), new String[]{"level" + parser.cURL(account.getLevel()) + ",lesson" + parser.cURL(account.getLesson()) + " " + example.namePackage});
                         Broke = false;
                     }
-
 
 
                     if (controlWebSite.sendExample(account, example, wrongFlag)) {

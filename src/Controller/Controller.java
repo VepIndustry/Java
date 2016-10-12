@@ -6,7 +6,9 @@ import Exceptions.NoLogin;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import static Model.Model.printNegativeLog;
@@ -15,7 +17,7 @@ import static Model.Model.printPositiveLog;
 public class Controller extends Thread {
     ControllerFileSystem controllerFileSystem = new ControllerFileSystem();
     ControlWebSite controlWebSite = new ControlWebSite();
-    Set<Thread> setAccountsThread;
+    Map<String, Thread> setAccountsThread;
 
     Set<Account> setAccounts;
 
@@ -36,7 +38,7 @@ public class Controller extends Thread {
                 case "addAccount":
                     System.out.println("Ключ для входа: ");
                     String key = reader.readLine();
-                    account = controller.addAccount(key, 0, (byte)100);
+                    account = controller.addAccount(key, 0, (byte) 100);
                     //account = new Account("veppev", 1, 2, 3, (byte)100);
                     if (account != null) {
                         controlWebSite.login(account);
@@ -57,14 +59,14 @@ public class Controller extends Thread {
                     }
                     break;
                 case "ser":
-                    if (account != null){
-                        account.CurrentExamples.add(new Example(1,2,"ll"));
-                        account.CurrentExamples.add(new Example(2,2,"ll"));
-                        account.CurrentExamples.add(new Example(1,3,"ll"));
+                    if (account != null) {
+                        account.CurrentExamples.add(new Example(1, 2, "ll"));
+                        account.CurrentExamples.add(new Example(2, 2, "ll"));
+                        account.CurrentExamples.add(new Example(1, 3, "ll"));
 
-                        account.WrongExamples.add(new Example(1,2,"ll"));
-                        account.WrongExamples.add(new Example(1,3,"ll"));
-                        account.WrongExamples.add(new Example(1,4,"ll"));
+                        account.WrongExamples.add(new Example(1, 2, "ll"));
+                        account.WrongExamples.add(new Example(1, 3, "ll"));
+                        account.WrongExamples.add(new Example(1, 4, "ll"));
                         controllerFileSystem.save(account);
                     }
             }
@@ -74,6 +76,22 @@ public class Controller extends Thread {
 
     public void printAll() {
         for (Account acc : setAccounts) Model.Model.println(acc.print());
+    }
+
+    public boolean stopUp(String key) {
+
+        if (setAccountsThread.containsKey(key)){
+            Thread thread = setAccountsThread.get(key);
+            thread.interrupt();
+            try {
+                thread.join();
+            } catch (Exception e){
+                return false;
+            }
+            setAccountsThread.remove(key);
+return true;
+        } else
+            return false;
     }
 
     public Set<Account> getSetAccounts() {
@@ -107,18 +125,18 @@ public class Controller extends Thread {
     }
 
     public void run() {
-        setAccountsThread = new HashSet<>();
+        setAccountsThread = new HashMap<>();
 
         for (Account account : setAccounts) {
             if (account.getMaxLvl() != -1) {
-                setAccountsThread.add(new ControllerProgress(account));
+                setAccountsThread.put(account.getKeyInter(), new ControllerProgress(account));
             }
         }
         while (true) {
             try {
                 sleep(100);
             } catch (InterruptedException e) {
-                for (Thread thread : setAccountsThread) {
+                for (Thread thread : setAccountsThread.values()) {
                     thread.interrupt();
                     try {
                         thread.join();

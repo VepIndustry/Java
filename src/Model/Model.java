@@ -49,10 +49,14 @@ public class Model {
                 break;
             case "TIME":
                 System.out.println("TIME: ждем " + Long.parseLong(args[0]) / 60000 + " минут(ы)");
+                break;
+            case "EXIT":
+                System.out.println("EXIT: " + name + " закончил работу.");
+                break;
         }
     }
 
-    public static synchronized void println(String str){
+    public static synchronized void println(String str) {
         System.out.println(str);
     }
 }
