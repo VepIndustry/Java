@@ -35,6 +35,9 @@ public class View {
                 case "watch -s":
                     controller.printAllShort();
                     break;
+                case "remote all example":
+                    controller.remote();
+                    break;
             }
         } while (!interCommand.equals("exit"));
         controller.interrupt();

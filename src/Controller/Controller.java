@@ -77,21 +77,24 @@ public class Controller extends Thread {
     public void printAll() {
         for (Account acc : setAccounts) Model.Model.println(acc.print());
     }
+
     public void printAllShort() {
-        for (Account acc : setAccounts) Model.Model.println(acc.getKeyInter() + " : уровень " + acc.getLevel() + " : лекция " + acc.getLesson() + ". Кач до " + acc.getMaxLvl() + ".");
+        for (Account acc : setAccounts)
+            Model.Model.println(acc.getKeyInter() + " : уровень " + acc.getLevel() + " : лекция " + acc.getLesson() + ". Кач до " + acc.getMaxLvl() + ".");
     }
+
     public boolean stopUp(String key) {
 
-        if (setAccountsThread.containsKey(key)){
+        if (setAccountsThread.containsKey(key)) {
             Thread thread = setAccountsThread.get(key);
             thread.interrupt();
             try {
                 thread.join();
-            } catch (Exception e){
+            } catch (Exception e) {
                 return false;
             }
             setAccountsThread.remove(key);
-return true;
+            return true;
         } else
             return false;
     }
@@ -123,6 +126,14 @@ return true;
             return account;
         } else {
             return null;
+        }
+    }
+
+    public void remote() {
+        for (Account account : setAccounts){
+            for (Example exe : account.WrongExamples){
+                exe.Broke = false;
+            }
         }
     }
 
