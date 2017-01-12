@@ -6,10 +6,7 @@ import Exceptions.NoLogin;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static Model.Model.printNegativeLog;
 import static Model.Model.printPositiveLog;
@@ -17,9 +14,9 @@ import static Model.Model.printPositiveLog;
 public class Controller extends Thread {
     ControllerFileSystem controllerFileSystem = new ControllerFileSystem();
     ControlWebSite controlWebSite = new ControlWebSite();
-    Map<String, Thread> setAccountsThread;
+    Map<String, Thread> setAccountsThread = new HashMap<String, Thread>();
 
-    Set<Account> setAccounts;
+    Set<Account> setAccounts = new HashSet<Account>();
 
     public Controller() {
         setAccounts = getSetAccounts();
@@ -83,8 +80,20 @@ public class Controller extends Thread {
             Model.Model.println(acc.getKeyInter() + " : уровень " + acc.getLevel() + " : лекция " + acc.getLesson() + ". Кач до " + acc.getMaxLvl() + ".");
     }
 
-    public boolean stopUp(String key) {
+    public void set_prof(String key, int prof) {
+        if (setAccountsThread.size()== 0) {
+            for (Account account : setAccounts) {
+                if (account.getKeyInter().equals(key)) {
+                    account.setProffecional((byte) prof);
+                    controllerFileSystem.save(account);
+                    System.out.println("Change proffesional. Now is " + account.getProffecional());
+                    break;
+                }
+            }
+        }
+    }
 
+    public boolean stopUp(String key) {
         if (setAccountsThread.containsKey(key)) {
             Thread thread = setAccountsThread.get(key);
             thread.interrupt();

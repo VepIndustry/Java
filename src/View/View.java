@@ -38,6 +38,12 @@ public class View {
                 case "remote all example":
                     controller.remote();
                     break;
+                case "set prof":
+                    Model.Model.println("Введите секретный ключ");
+                    String keys = reader.readLine();
+                    Model.Model.println("Новый уровень \"профессионализма\"");
+                    controller.set_prof(keys, Integer.parseInt(reader.readLine()));
+                    break;
             }
         } while (!interCommand.equals("exit"));
         controller.interrupt();
